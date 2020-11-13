@@ -10,6 +10,15 @@ import (
 
 var sugarLogger *zap.SugaredLogger
 
+func init() {
+	writeSyncer := getLogWriter("")
+	encoder := getEncoder()
+	core := zapcore.NewCore(encoder, writeSyncer, zapcore.DebugLevel)
+
+	logger := zap.New(core, zap.AddCaller())
+	sugarLogger = logger.Sugar()
+}
+
 func InitLogger(level zapcore.Level, path string) {
 	writeSyncer := getLogWriter(path)
 	encoder := getEncoder()
