@@ -10,7 +10,7 @@ func logWithoutInit() {
 }
 
 func logWithInit() {
-	log.InitLogger(zap.InfoLevel, "log")
+	log.InitLogger(zap.InfoLevel, "main.log")
 	log.Info("test with init")
 }
 
