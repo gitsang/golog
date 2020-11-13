@@ -1,4 +1,4 @@
-module v2
+module github.com/gitsang/golog
 
 go 1.14
 
