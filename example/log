@@ -1,0 +1,6 @@
+2020-11-13T17:46:52.020+0800	INFO	example/main.go:14	[test with init]
+2020-11-13T17:47:29.740+0800	INFO	example/main.go:14	[test with init]
+2020-11-13T17:47:44.331+0800	INFO	golog/log.go:64	[test with init]
+2020-11-13T17:55:50.517+0800	INFO	example/main.go:14	[test with init]
+2020-11-13T17:57:42.518+0800	INFO	example/main.go:14	main.logWithInit	[test with init]
+2020-11-13T17:58:26.959+0800	INFO	example/main.go:14	main.logWithInit	[test with init]
