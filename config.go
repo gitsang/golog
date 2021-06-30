@@ -9,6 +9,15 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+const (
+	EncoderTypeConsole = "console"
+	EncoderTypeJson    = "json"
+	LevelDebug         = "debug"
+	LevelInfo          = "info"
+	LevelWarn          = "warn"
+	LevelError         = "error"
+)
+
 type EncoderConfig struct {
 	EncoderType      string
 	MessageKey       string
@@ -50,7 +59,7 @@ func defaultLogConfig() *LogConfig {
 		LogLevel:   zapcore.InfoLevel,
 		EnableHttp: false,
 		EncoderConfig: EncoderConfig{
-			EncoderType:      "Console",
+			EncoderType:      EncoderTypeConsole,
 			MessageKey:       "msg",
 			LevelKey:         "level",
 			TimeKey:          "ts",
@@ -78,16 +87,16 @@ func defaultLogConfig() *LogConfig {
 
 func WithLogLevel(level string) LogConfigOption {
 	return func(config *LogConfig) {
-		level = strings.ToUpper(level)
+		level = strings.ToLower(level)
 		var zapLevel zapcore.Level
 		switch level {
-		case "DEBUG":
+		case LevelDebug:
 			zapLevel = zap.DebugLevel
-		case "INFO":
+		case LevelInfo:
 			zapLevel = zap.InfoLevel
-		case "WARN":
+		case LevelWarn:
 			zapLevel = zap.WarnLevel
-		case "ERROR":
+		case LevelError:
 			zapLevel = zap.ErrorLevel
 		default:
 			zapLevel = zap.InfoLevel
@@ -110,7 +119,7 @@ func WithHttpPort(port int) LogConfigOption {
 
 func WithEncoderType(t string) LogConfigOption {
 	return func(config *LogConfig) {
-		config.EncoderConfig.EncoderType = strings.ToUpper(t)
+		config.EncoderConfig.EncoderType = strings.ToLower(t)
 	}
 }
 
@@ -123,6 +132,16 @@ func WithLogFile(file string) LogConfigOption {
 func WithLogFileCompress(compress bool) LogConfigOption {
 	return func(config *LogConfig) {
 		config.LogFileConfig.Compress = compress
+	}
+}
+
+func WithDisplayFuncEnable(enable bool) LogConfigOption {
+	return func(config *LogConfig) {
+		if enable {
+			config.FunctionKey = "func"
+		} else {
+			config.FunctionKey = zapcore.OmitKey
+		}
 	}
 }
 
@@ -149,9 +168,9 @@ func InitLogger(opts ...LogConfigOption) {
 	}
 
 	var encoder zapcore.Encoder
-	if conf.EncoderType == "CONSOLE" {
+	if conf.EncoderType == EncoderTypeConsole {
 		encoder = zapcore.NewConsoleEncoder(encoderConfig)
-	} else if conf.EncoderType == "JSON" {
+	} else if conf.EncoderType == EncoderTypeJson {
 		encoder = zapcore.NewJSONEncoder(encoderConfig)
 	} else {
 		encoder = zapcore.NewConsoleEncoder(encoderConfig)

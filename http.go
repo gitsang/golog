@@ -6,6 +6,7 @@ import (
 )
 
 func StartLogLevelHttpHandle(port int) {
+	// Todo: using get to set loglevel
 	http.HandleFunc("/loglevel", atomicLevel.ServeHTTP)
 	go func() {
 		addr := ":" + strconv.Itoa(port)

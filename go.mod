@@ -1,6 +1,6 @@
 module github.com/gitsang/golog
 
-go 1.14
+go 1.16
 
 require (
 	github.com/natefinch/lumberjack v2.0.0+incompatible
