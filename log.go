@@ -11,3 +11,7 @@ var (
 func init() {
 	InitLogger()
 }
+
+func ChangeLogLevel(level string) {
+	atomicLevel.SetLevel(StringToLogLevel(level))
+}

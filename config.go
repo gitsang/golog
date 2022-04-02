@@ -12,10 +12,6 @@ import (
 const (
 	EncoderTypeConsole = "console"
 	EncoderTypeJson    = "json"
-	LevelDebug         = "debug"
-	LevelInfo          = "info"
-	LevelWarn          = "warn"
-	LevelError         = "error"
 )
 
 type EncoderConfig struct {
@@ -87,21 +83,7 @@ func defaultLogConfig() *LogConfig {
 
 func WithLogLevel(level string) LogConfigOption {
 	return func(config *LogConfig) {
-		level = strings.ToLower(level)
-		var zapLevel zapcore.Level
-		switch level {
-		case LevelDebug:
-			zapLevel = zap.DebugLevel
-		case LevelInfo:
-			zapLevel = zap.InfoLevel
-		case LevelWarn:
-			zapLevel = zap.WarnLevel
-		case LevelError:
-			zapLevel = zap.ErrorLevel
-		default:
-			zapLevel = zap.InfoLevel
-		}
-		config.LogLevel = zapLevel
+		config.LogLevel = StringToLogLevel(level)
 	}
 }
 
